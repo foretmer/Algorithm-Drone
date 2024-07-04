@@ -1,6 +1,6 @@
 # Algorithm-Drone
 Drone delivery route planning problem  
-李妍大作业无人机配送路径规划算法的具体实现，具体问题参考无人机配送路径规划问题.docx。
+李妍（2023202210161）大作业无人机配送路径规划算法的具体实现，具体问题参考无人机配送路径规划问题.docx。
 
 ## 文件介绍
 
