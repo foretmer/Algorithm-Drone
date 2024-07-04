@@ -1,5 +1,6 @@
-use super::graph::PointRole;
 use rand::{rngs::ThreadRng, seq::IteratorRandom, thread_rng};
+
+use super::graph::PointRole;
 
 #[derive(Clone, Copy)]
 pub enum Priority {
@@ -43,7 +44,7 @@ pub fn pri_to_num(pri: Priority) -> i32 {
 pub fn print_orders(orders: &Vec<Order>, s: &str) {
     print!("{}", s);
     orders.iter().for_each(|order| {
-        print!("{} ", order.owned);
+        print!("{}-", order.owned);
         match order.pri {
             Priority::High => print!("High "),
             Priority::Mid => print!("Mid "),
@@ -128,7 +129,6 @@ impl Scheduler {
         self.high_list
             .extend(
                 self.mid_list
-                    .clone()
                     .iter()
                     .map(|it| 
                         Order {
@@ -158,7 +158,6 @@ impl Scheduler {
         self.high_list
             .extend(
                 self.mid_list
-                    .clone()
                     .iter()
                     .map(|it| 
                         Order {

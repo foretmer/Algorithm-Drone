@@ -79,7 +79,7 @@ $$dist = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$$
 那么我们的算法怎么做？很简单，只需在此基础上加以限制来缩减路径即可：
 1. 对所有待配送订单进行排序，让其中的订单按照其持有者到最近配送中心的距离的升序进行排序（贪心选择，从代价最小的订单开始）。
 2. 对已排序的订单进行遍历，依代价由小到大选择未配送的订单，然后求得距离此订单持有者（配货点）最近的配送中心所对应的TSP回路；
-3. 遍历此回路的每个节点，如果节点有更优解（直接到当前节点的最近配送中心的回路更短）或不满足要求（包括无人机最大里程限制、最大携带限制和优先级要求），则在路径中删除此节点；
+3. 遍历此回路的每个节点，如果节点有更优解（直接到当前节点的最近配送中心的回路的总距离更短）或不满足要求（包括无人机最大里程限制、最大携带限制和优先级要求），则在路径中删除此节点；
 4. 如果节点所持有的所有订单都满足条件，则都标记为已配送；否则只将满足条件的订单标记为已配送；
 5. 如果路径中的节点经此路径后其所有订单都被标记为已配送，在可选节点集中删除它（确保其不会被重复选择来构建图）；
 6. 回到2，重复，直至所有的订单都已得到配送。
@@ -128,7 +128,7 @@ for i in length of O do:
     	if o’s priority is not satisfied then:
             delete p from P_k;
     	endif
-    	if distance(p^(-1) → p → s) > distance(s' → p → s') then:
+    	if distance(p^(-1) → p → s) > distance(p^(-1) → s + s' → p → s') then:
             delete p from P_k;
     	endif
     	if distance({s → ⋯ → p^(-1)} → p → s) > drone's max fly distance then:
@@ -184,61 +184,63 @@ AdjMat:
 11.3137 7.2111 7.6158 7.2801 5.0990 5.0990 6.3246 5.0000 0.0000 
 ======
 Time slice 1
-Orders: 6 Mid 3 Low 8 Low 0 High 2 Mid 5 Low 
-High-pri orders: 0 High 
-Sorted high-pri orders: 0 High 
-Min cost: 8.9443; Route: [1, 0, 1]
-Total min cost: 8.9443
+[New orders] 2-Low 3-Low 5-Low 0-High 6-Mid 8-Low 
+[High-pri orders] 0-High 
+[Process queue] 0-High 
+[Routes and costs]
+        Min cost: 8.9443        Route: [1, 0, 1]
+[Total min cost] 8.9443
 ======
 Time slice 2
-Orders: 6 Mid 3 Low 8 Mid 0 High 2 Mid 5 High 
-High-pri orders: 6 High 2 High 0 High 5 High 
-Sorted high-pri orders: 6 High 5 High 2 High 0 High 
-Min cost: 5.6569; Route: [4, 6, 2, 4]
-Min cost: 4.4721; Route: [7, 5, 7]
-Min cost: 8.9443; Route: [1, 0, 1]
-Total min cost: 19.0733
+[New orders] 2-High 3-Mid 5-Mid 0-High 6-Mid 8-High 
+[High-pri orders] 6-High 2-High 0-High 8-High 
+[Process queue] 6-High 2-High 0-High 8-High 
+[Routes and costs]
+        Min cost: 15.5432       Route: [4, 6, 2, 8, 4]
+        Min cost: 8.9443        Route: [1, 0, 1]
+[Total min cost] 24.4875
 ======
 Time slice 3
-Orders: 6 Low 3 High 8 Low 0 Mid 2 Low 5 Mid 
-High-pri orders: 3 High 8 High 5 High 6 High 8 High 2 High 3 High 
-Sorted high-pri orders: 6 High 3 High 5 High 3 High 2 High 8 High 8 High 
-Min cost: 5.6569; Route: [4, 6, 2, 4]
-Min cost: 4.4721; Route: [1, 3, 1]
-Min cost: 4.4721; Route: [7, 5, 7]
-Min cost: 10.0000; Route: [7, 8, 7]
-Total min cost: 24.6011
+[New orders] 2-High 3-Low 5-Low 0-Mid 6-Low 8-High 
+[High-pri orders] 2-High 3-High 5-High 8-High 3-High 5-High 6-High 2-High 8-High 
+[Process queue] 6-High 3-High 5-High 3-High 5-High 2-High 2-High 8-High 8-High 
+[Routes and costs]
+        Min cost: 5.6569        Route: [4, 6, 2, 4]
+        Min cost: 7.6344        Route: [1, 3, 5, 1]
+        Min cost: 12.3351       Route: [7, 5, 8, 7]
+[Total min cost] 25.6264
 ======
 Time slice 4
-Orders: 6 Low 3 Mid 8 High 0 High 2 Low 5 High 
-High-pri orders: 3 High 0 High 5 High 8 High 0 High 5 High 
-Sorted high-pri orders: 3 High 5 High 5 High 0 High 0 High 8 High 
-Min cost: 4.4721; Route: [1, 3, 1]
-Min cost: 4.4721; Route: [7, 5, 7]
-Min cost: 8.9443; Route: [1, 0, 1]
-Min cost: 10.0000; Route: [7, 8, 7]
-Total min cost: 27.8885
+[New orders] 2-Low 3-High 5-Mid 0-High 6-Mid 8-Mid 
+[High-pri orders] 0-High 3-High 0-High 
+[Process queue] 3-High 0-High 0-High 
+[Routes and costs]
+        Min cost: 12.7910       Route: [1, 3, 0, 1]
+[Total min cost] 12.7910
 ======
 Time slice 5
-Orders: 6 Low 3 Low 8 Mid 0 Low 2 Mid 5 High 
-High-pri orders: 6 High 8 High 2 High 3 High 5 High 
-Sorted high-pri orders: 6 High 3 High 5 High 2 High 8 High 
-Min cost: 5.6569; Route: [4, 6, 2, 4]
-Min cost: 4.4721; Route: [1, 3, 1]
-Min cost: 4.4721; Route: [7, 5, 7]
-Min cost: 10.0000; Route: [7, 8, 7]
-Total min cost: 24.6011
+[New orders] 2-Low 3-High 5-Low 0-High 6-Low 8-Mid 
+[High-pri orders] 3-High 5-High 6-High 5-High 6-High 8-High 3-High 0-High 
+[Process queue] 6-High 6-High 3-High 5-High 5-High 3-High 0-High 8-High 
+[Routes and costs]
+        Min cost: 2.8284        Route: [4, 6, 4]
+        Min cost: 7.6344        Route: [1, 3, 5, 1]
+        Min cost: 12.3351       Route: [7, 5, 8, 7]
+        Min cost: 8.9443        Route: [1, 0, 1]
+[Total min cost] 31.7422
 ======
 Time slice 6
-Orders: 6 High 3 Mid 8 Low 0 Mid 2 Mid 5 High 
-High-pri orders: 6 High 2 High 8 High 2 High 6 High 5 High 6 High 3 High 0 High 3 High 0 High 2 High 8 High 
-Sorted high-pri orders: 6 High 6 High 6 High 5 High 3 High 3 High 2 High 2 High 2 High 0 High 0 High 8 High 8 High 
-Min cost: 2.8284; Route: [4, 6, 4]
-Min cost: 4.4721; Route: [7, 5, 7]
-Min cost: 4.4721; Route: [1, 3, 1]
-Min cost: 5.6569; Route: [4, 2, 4]
-Min cost: 8.9443; Route: [1, 0, 1]
-Min cost: 10.0000; Route: [7, 8, 7]
-Total min cost: 36.3738
+[New orders] 2-High 3-High 5-Low 0-Low 6-Low 8-High 
+[High-pri orders] 2-High 8-High 2-High 3-High 8-High 2-High 5-High 6-High 5-High 0-High 6-High 
+[Process queue] 6-High 6-High 3-High 5-High 5-High 2-High 2-High 2-High 0-High 8-High 8-High 
+[Routes and costs]
+        Min cost: 5.6569        Route: [4, 6, 2, 4]
+        Min cost: 7.6344        Route: [1, 3, 5, 1]
+        Min cost: 15.5432       Route: [4, 2, 8, 4]
+        Min cost: 8.9443        Route: [1, 0, 1]
+        Min cost: 10.0000       Route: [7, 8, 7]
+[Total min cost] 47.7788
+======
+[Overall cost] 151.3700
 ```
 

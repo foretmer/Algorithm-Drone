@@ -77,10 +77,14 @@ impl DeliverySolver {
         let this_to_root = OrderedFloat(self.adj_mat.get_dist(this_pt, root));
         let time_passed = ((this_to_pre + info.d_dist) / OrderedFloat(self.config.d_speed as f64)).ceil() as i32;
 
-        if this_to_pre + this_to_root > this_to_near * 2. { false }                             // not a good choice
-        else if this_to_pre + this_to_root > OrderedFloat(self.config.d_longest) { false }      // exceed longest dist
-        else if time_passed > pri_to_num(pri) { false }                                         // cannot satisfy priority
-        else if info.d_carry >= self.config.d_m_carry { false }                                 // no carry
+        let pre_to_root = OrderedFloat(self.adj_mat.get_dist(pre_pt, root));
+        let dist_longest = OrderedFloat(self.config.d_longest);
+        let dist_passed = OrderedFloat(info.d_dist);
+
+        if this_to_pre + this_to_root > pre_to_root + this_to_near * 2. { false }   // not a good choice
+        else if dist_passed + this_to_pre + this_to_root > dist_longest { false }   // exceed longest dist                                       
+        else if info.d_carry >= self.config.d_m_carry { false }                     // cannot satisfy priority                   
+        else if time_passed > pri_to_num(pri) { false }                             // no carry
         else { true }
     }
 
@@ -133,7 +137,7 @@ impl DeliverySolver {
     pub fn prog_per_orders(&self, orders: &Vec<Order>) -> Vec<Solution> {  //directly solve the 1st pris' orders
         let c_orders = orders.clone();
         let sorted_orders = self.get_sorted_orders(c_orders);
-        print_orders(&sorted_orders, "Sorted high-pri orders: ");
+        print_orders(&sorted_orders, "[Process queue] ");
 
         let mut recv_orders: HashMap<usize, Vec<usize>> = HashMap::new();
         sorted_orders
