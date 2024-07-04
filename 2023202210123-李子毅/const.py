@@ -1,0 +1,20 @@
+START_TIME = "2000-01-01 00:00:00"
+# 单位时间
+UNIT_TIME = 30
+MAX_NON_URGENT_ORDERS_PER_PERIOD = 10
+# 每个单位时间,每个配送中心生成的订单个数
+NUM_ORDER_PER_POINT = 2
+# 总时间周期
+DURATION_TIME = 3 * 60
+# 无人机最远飞行距离
+MAX_DISTANCE = 20
+# 无人机载荷
+MAX_CAPACITY = 5
+# 卸货点个数
+NUM_DP = 10
+# 配送中心个数
+NUM_DC = 5
+# 优先级
+GRADE_ONE = 30
+GRADE_TWO = 90
+GRADE_THREE = 180
