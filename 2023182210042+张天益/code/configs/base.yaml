@@ -1,0 +1,7 @@
+drop_points_num: 15
+depots_num: 5
+drone_speed: 1  
+max_distance: 4
+one_round_order_time: 15  
+simulation_time: 720
+max_order_num: 10
