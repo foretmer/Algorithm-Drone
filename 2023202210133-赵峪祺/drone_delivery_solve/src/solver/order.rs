@@ -18,8 +18,8 @@ pub enum GenWay {
 
 #[derive(Clone, Copy)]
 pub struct Order {
-    pub pri: Priority,       // unit: minute, 30: 1st | 90: 2nd | 180: 3rd
-    pub owned: usize,          // the order hold by which point
+    pub pri: Priority,          // unit: minute, 30: 1st | 90: 2nd | 180: 3rd
+    pub owned: usize,           // the order hold by which point
 }
 
 pub struct OrderGener {

@@ -7,7 +7,7 @@ mod solver;
 fn main() -> Result<(), Box<dyn Error>> {
     const TOTAL_TIME: i32 = 180;        // total time, I set it to 180(min)
     const GEN_DURATION: i32 = 30;       // duration between gen, I set it to 30(min)
-    const GEN_ORDERS: usize = 6;        // gen orders' number, I set it to 3
+    const GEN_ORDERS: usize = 6;        // gen orders' number, I set it to 6
 
     let point_datas = vec![                 // point datas
         (1, 1), (5, 3), (2, 6), 
@@ -23,8 +23,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         &r_ids, 
         Config {
             d_speed: 1,         // km per min: 1
-            d_longest: 20.,     // max carry, I set it to 3
-            d_m_carry: 3,       // longest fly dist: 20
+            d_longest: 20.,     // longest fly dist: 20
+            d_m_carry: 3,       // max carry, I set it to 3
         }
     );
 
