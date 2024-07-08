@@ -83,8 +83,8 @@ impl DeliverySolver {
 
         if this_to_pre + this_to_root > pre_to_root + this_to_near * 2. { false }   // not a good choice
         else if dist_passed + this_to_pre + this_to_root > dist_longest { false }   // exceed longest dist                                       
-        else if info.d_carry >= self.config.d_m_carry { false }                     // cannot satisfy priority                   
-        else if time_passed > pri_to_num(pri) { false }                             // no carry
+        else if info.d_carry >= self.config.d_m_carry { false }                     // no carry space left              
+        else if time_passed > pri_to_num(pri) { false }                             // cannot satisfy priority    
         else { true }
     }
 
