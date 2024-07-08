@@ -1,0 +1,10 @@
+[package]
+name = "solve_drone"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+itertools = "0.13.0"
+ordered-float = "4.2.1"
+rand = "0.8.5"
+
